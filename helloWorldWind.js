@@ -8,7 +8,8 @@ var wwd = new WorldWind.WorldWindow("canvasOne");
 
 // Imagery layers
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
-wwd.addLayer(new WorldWind.BMNGLandsatLayer());
+// wwd.addLayer(new WorldWind.BMNGLandsatLayer());
+wwd.addLayer(new WorldWind.BingAerialWithLabelsLayer());
 
 // Compass, coordinates and view controls
 // wwd.addLayer(new WorldWind.CompassLayer());
@@ -112,4 +113,4 @@ var logError = function (jqXhr, text, exception) {
     " exception: " + exception);
 };
 // display
-$.get(serviceAddress).done(createLayer).fail(logError);
+// $.get(serviceAddress).done(createLayer).fail(logError);
