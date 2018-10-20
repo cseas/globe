@@ -36,3 +36,20 @@ placemark.alwaysOnTop = true;
 // add it to the previously created placemarkLayer
 // We could keep adding more placemarks to placemarkLayer if we desire
 placemarkLayer.addRenderable(placemark);
+
+
+// Display 3D Shapes
+// layer to store polygon
+var polygonLayer = new WorldWind.RenderableLayer();
+wwd.addLayer(polygonLayer);
+// Attributes object
+var polygonAttributes = new WorldWind.ShapeAttributes(null);
+polygonAttributes.interiorColor = new WorldWind.Color(0, 1, 1, 0.75);
+polygonAttributes.outlineColor = WorldWind.Color.BLUE;
+polygonAttributes.drawOutline = true;
+polygonAttributes.applyLighting = true;
+
+var boundaries = [];
+boundaries.push(new WorldWind.Position(20.0, -75.0, 700000.0));
+boundaries.push(new WorldWind.Position(25.0, -85.0, 700000.0));
+boundaries.push(new WorldWind.Position(20.0, -95.0, 700000.0));
