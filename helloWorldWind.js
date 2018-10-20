@@ -1,3 +1,8 @@
+// Objects you can display:
+// 1. placemark
+// 2. polygons
+// 3. complex 3d models
+
 var wwd = new WorldWind.WorldWindow("canvasOne");
 
 // Imagery layers
@@ -8,6 +13,8 @@ wwd.addLayer(new WorldWind.BMNGLandsatLayer());
 wwd.addLayer(new WorldWind.CompassLayer());
 wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
+
+
 
 // Drawing Placemarks
 var placemarkLayer = new WorldWind.RenderableLayer("Placemark");
@@ -35,7 +42,8 @@ placemark.label = "Placemark\n" +
 placemark.alwaysOnTop = true;
 // add it to the previously created placemarkLayer
 // We could keep adding more placemarks to placemarkLayer if we desire
-placemarkLayer.addRenderable(placemark);
+// placemarkLayer.addRenderable(placemark);
+
 
 
 // Display 3D Shapes
@@ -59,7 +67,9 @@ boundaries.push(new WorldWind.Position(20.0, -95.0, 700000.0));
 // display our shape as an extrusion from the surface of the Earth
 var polygon = new WorldWind.Polygon(boundaries, polygonAttributes);
 polygon.extrude = true;
-polygonLayer.addRenderable(polygon);
+// polygonLayer.addRenderable(polygon);
+
+
 
 // display more complex 3D shapes from external sources, 
 // like COLLADA 3D model files
@@ -70,4 +80,10 @@ var position = new WorldWind.Position(10.0, -125.0, 800000.0);
 // a configuration object containing a dirPath attribute that points 
 // towards a folder where many .dae files may be located
 var config = {dirPath: WorldWind.configuration.baseUrl + 'examples/collada_models/duck/'};
+// feed both parameters to the ColladaLoader constructor
 var colladaLoader = new WorldWind.ColladaLoader(position, config);
+// use the load function of ColladaLoader to retrieve the model file that we desire
+// colladaLoader.load("duck.dae", function (colladaModel) {
+//     colladaModel.scale = 9000;
+//     modelLayer.addRenderable(colladaModel);
+// });
