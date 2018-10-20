@@ -2,6 +2,7 @@
 // 1. placemark
 // 2. polygons
 // 3. complex 3d models
+// 4. map imagery service
 
 var wwd = new WorldWind.WorldWindow("canvasOne");
 
@@ -91,3 +92,23 @@ var colladaLoader = new WorldWind.ColladaLoader(position, config);
 
 
 // Accessing a map imagery service
+// Retrieve an imagery layer from NASA Earth Observations WMS
+// We’ll need the WMS address alongside its WMS’s GetCapabilities request
+var serviceAddress = "https://neo.sci.gsfc.nasa.gov/wms/wms?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0";
+// choose average temperature over land
+var layerName = "MOD_LSTD_CLIM_M";
+var createLayer = function (xmlDom) {
+    var wms = new WorldWind.WmsCapabilities(xmlDom);
+    var wmsLayerCapabilities = wms.getNamedLayer(layerName);
+    var wmsConfig = WorldWind.WmsLayer.formLayerConfiguration(wmsLayerCapabilities);
+    var wmsLayer = new WorldWind.WmsLayer(wmsConfig);
+    wwd.addLayer(wmsLayer);
+};
+// handle errors
+var logError = function (jqXhr, text, exception) {
+    console.log("There was a failure retrieving the capabilities document: " +
+        text +
+    " exception: " + exception);
+};
+// display
+$.get(serviceAddress).done(createLayer).fail(logError);
