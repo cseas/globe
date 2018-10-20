@@ -87,3 +87,7 @@ var colladaLoader = new WorldWind.ColladaLoader(position, config);
 //     colladaModel.scale = 9000;
 //     modelLayer.addRenderable(colladaModel);
 // });
+
+
+
+// Accessing a map imagery service
