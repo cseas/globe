@@ -9,7 +9,7 @@ var wwd = new WorldWind.WorldWindow("canvasOne");
 // Imagery layers
 wwd.addLayer(new WorldWind.BMNGOneImageLayer());
 // wwd.addLayer(new WorldWind.BMNGLandsatLayer());
-wwd.addLayer(new WorldWind.BingAerialWithLabelsLayer());
+wwd.addLayer(new WorldWind.BingAerialWithLabelsLayer(null));
 
 // Compass, coordinates and view controls
 // wwd.addLayer(new WorldWind.CompassLayer());
@@ -114,3 +114,43 @@ var logError = function (jqXhr, text, exception) {
 };
 // display
 // $.get(serviceAddress).done(createLayer).fail(logError);
+
+
+
+// Create the Blue Marble time series layer using REST tiles hosted at worldwind32.arc.nasa.gov.
+// Disable it until its images are cached, which is initiated below.
+var timeSeriesLayer = new WorldWind.BMNGRestLayer(
+    "https://worldwind32.arc.nasa.gov/standalonedata/Earth/BlueMarble256"
+    );
+timeSeriesLayer.enabled = false;
+timeSeriesLayer.showSpinner = true;
+wwd.addLayer(timeSeriesLayer);
+
+// Add atmosphere layer on top of base imagery layer.
+wwd.addLayer(new WorldWind.AtmosphereLayer());
+
+var timeIndex = 0;
+var animationStep = 200;
+
+function animateTimeSeries() {
+            // Pre-load all of the time series layer data before starting the animation, so that we don't see image
+            // tiles flashing as they're downloaded.
+            if (!timeSeriesLayer.isPrePopulated(wwd)) {
+                timeSeriesLayer.prePopulate(wwd);
+                return;
+            }
+
+            // Increment the Blue Marble layer's time at a specified frequency.
+            timeIndex = ++timeIndex % WorldWind.BMNGRestLayer.availableTimes.length;
+            timeSeriesLayer.time = WorldWind.BMNGRestLayer.availableTimes[timeIndex];
+            timeSeriesLayer.enabled = true;
+            timeSeriesLayer.showSpinner = false;
+            layerManager.synchronizeLayerList();
+            wwd.redraw();
+}
+
+// Run the animation at the desired frequency.
+window.setInterval(animateTimeSeries, animationStep);
+
+        // Create a layer manager for controlling layer visibility.
+// var layerManager = new LayerManager(wwd);
