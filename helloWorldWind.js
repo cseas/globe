@@ -1,0 +1,1 @@
+var wwd = new WorldWind.WorldWindow("canvasOne");
