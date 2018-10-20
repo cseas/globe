@@ -49,7 +49,25 @@ polygonAttributes.outlineColor = WorldWind.Color.BLUE;
 polygonAttributes.drawOutline = true;
 polygonAttributes.applyLighting = true;
 
+// in terms of latitude, longitude and altitude, 
+// we define the boundaries of the polygon 
+// using an array of WorldWind.Position objects
 var boundaries = [];
 boundaries.push(new WorldWind.Position(20.0, -75.0, 700000.0));
 boundaries.push(new WorldWind.Position(25.0, -85.0, 700000.0));
 boundaries.push(new WorldWind.Position(20.0, -95.0, 700000.0));
+// display our shape as an extrusion from the surface of the Earth
+var polygon = new WorldWind.Polygon(boundaries, polygonAttributes);
+polygon.extrude = true;
+polygonLayer.addRenderable(polygon);
+
+// display more complex 3D shapes from external sources, 
+// like COLLADA 3D model files
+var modelLayer = new WorldWind.RenderableLayer();
+wwd.addLayer(modelLayer);
+// a WorldWind.Position object in terms of latitude, longitude, and altitude
+var position = new WorldWind.Position(10.0, -125.0, 800000.0);
+// a configuration object containing a dirPath attribute that points 
+// towards a folder where many .dae files may be located
+var config = {dirPath: WorldWind.configuration.baseUrl + 'examples/collada_models/duck/'};
+var colladaLoader = new WorldWind.ColladaLoader(position, config);
